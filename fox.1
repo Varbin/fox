@@ -1,0 +1,61 @@
+.Dd $Mdocdate$
+.Dt Fox 1
+.An Varbin
+
+.Sh NAME
+.Nm fox ,
+.Nm 🦊
+.Nd Join and foxify files on the standard output.
+
+.Sh SYNOPSIS
+.Nm
+.Op Ar
+
+.Sh DESCRIPTION
+
+Join foxified files to standard output.
+
+With no file, or when file is -, read from the standard input.
+
+.Sh FOX TRANSLATION RULES
+
+.Nm
+translates arbitrary unicode runes into fox screams!
+See the following enumeration on how each scream is generated.
+
+.Bl -tag -width
+.It a
+Quiet screams are emitted for any lowercase letter.
+.It A
+Loud screams will be emitted for for any uppercase or titlecase letter.
+.It !
+Foxes scream. Other punctuation than exclamation marks are unnecessary.
+.It 🦊
+Symbols (and emojis!) are replaced with foxes. Foxes are everywhere!
+.It ?
+The fox gets if they encounter an unknown symbol, such as a number.
+.El
+
+Linebreaks a are left intact, other whitespaces are replaces with spaces.
+
+.Sh EXAMPLES
+
+.EXIT STATUS
+
+.Bl -tag -width
+.It 0
+Everything is fine. Yerf!
+.It 1
+Cannot not open file. Aaaaa!
+.It 2
+Cannot read file. AAAAA!
+.El
+
+.Sh BUGS
+
+Use brushes to move them out of the fur.
+You may also need tick tweezers.
+
+.Sh SEE ALSO
+.Xr cat 1 ,
+.Xr tac 1
