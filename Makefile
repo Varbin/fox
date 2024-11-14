@@ -1,35 +1,64 @@
-INSTALL_PATH?=/usr/local
-MANPAGES=fox.1.gz
+PREFIX?=/usr/local
 
-.PHONY: all clean install varbin strip prod
+bindir=/bin
+mandir=/share/man
+mansubdir=man
+varbindir=/var/bin
+manpages=fox.1.gz
+
+MKDIR_P?=mkdir -p
+RM_F?=rm -f
+RMDIR?=rmdir --ignore-fail-on-nonempty
+GZIP?=gzip
+INSTALL?=install
+STRIP?=strip
+LN?=ln
+
+GO_BUILD?=go build
+GO_BUILD_EXTRA_ARGS?=
+GO_BUILD_ARGS?=-trimpath -ldflags=-buildid= -buildmode=pie -v
+
+.PHONY: all clean install uninstall varbin uninstall-varbin
 
 all: fox man
 
 fox: *.go
-	go build -trimpath -ldflags=-buildid= -buildmode=pie -v
+	$(GO_BUILD) $(GO_BUILD_ARGS) $(GO_BUILD_EXTRA_ARGS)
 
-man: $(MANPAGES)
+man: $(manpages)
 
 %.gz : %
-	gzip -k $?
+	$(GZIP) -k $?
 
 clean:
-	-rm -f *.gz
-	-rm -f fox
+	-$(RM_F) *.gz
+	-$(RM_F) fox
 
 # Naked fox
 strip: fox
-	strip $?
+	$(STRIP) $?
 
 install: all strip
-	install -D -m 755 fox $(INSTALL_PATH)/bin/fox
-	install -D -m 644 fox.1.gz $(INSTALL_PATH)/share/man/man1/fox.1.gz
+	$(MKDIR_P) $(PREFIX)
+	$(MKDIR_P) $(PREFIX)$(bindir)
+	$(MKDIR_P) $(PREFIX)$(mandir)/$(mansubdir)1
 
-varbin: fox strip
-	install -D -m 755 fox /var/bin/fox
+	$(INSTALL) -m 0755 fox $(PREFIX)$(bindir)/fox
+	$(LN) $(PREFIX)$(bindir)/fox $(PREFIX)$(bindir)/🦊
+
+	$(INSTALL) -m 644 fox.1.gz $(PREFIX)$(mandir)/$(mansubdir)1/fox.1.gz
 
 uninstall:
-	rm -f $(INSTALL_PATH)/bin/fox
-	rm -f $(INSTALL_PATH)/share/man/man1/fox.1.gz
-	rm -f /var/bin/fox
-	if test -d /var/bin; then rmdir --ignore-fail-on-non-empty /var/bin; fi
+	$(RM_F) $(PREFIX)$(bindir)/fox
+	$(RM_F) $(PREFIX)$(bindir)/🦊
+	$(RM_F) $(PREFIX)$(mandir)/$(mansubdir)1/fox.1.gz
+
+varbin: fox strip
+	$(MKDIR_P) $(varbindir)
+	install -m 0755 fox $(varbindir)/fox
+	$(LN) $(varbindir)/fox $(varbindir)/🦊
+
+uninstall-varbin:
+	$(RM_F) $(varbindir)/fox
+	$(RM_F) $(varbindir)/🦊
+	if test -d $(varbindir); then $(RMDIR) $(varbindir); fi
