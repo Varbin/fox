@@ -10,13 +10,13 @@ fox@den:~$
 
 ## Installation
 
-Install either with go:
+Install either with `go install`:
 
 ```shell
 ~$ go install github.com/varbin/fox
 ```
 
-or by using the makefile:
+or by using the Makefile:
 
 ```shell
 git clone https://github.com/varbin/fox
@@ -25,8 +25,23 @@ make
 sudo make install
 ```
 
-The latter method includes a man page.
+The latter also installs the `fox(1)` man page and the `🦊` alias.
 
+## Building from source
+
+You can use just `go build`.
+Alternatively use the provided Makefile.
+
+Targets of the Makefile:
+- `all` (default): `fox` and `man`
+- `fox`: Builds a fox...
+- `man`: Compresses the manual.
+- `clean`: Removes build artifacts.
+- `install`: Install to `PREFIX`.
+- `uninstall`: Uninstalls from `PREFIX`.
+
+Variables:
+- `PREFIX` (default `/usr/local`): Installation prefix, e.g. where to install to
 
 ## Manual
 
@@ -45,27 +60,41 @@ DESCRIPTION
      With no file, or when file is -, read from the standard input.
 
 FOX TRANSLATION RULES
-     fox translates arbitrary unicode runes into fox screams!
-     See the following enumeration on how each scream is generated.
+     fox translates arbitrary unicode runes into fox screams!  See the follow‐
+     ing enumeration on how each scream is generated.
 
      a
-       Quiet screams are emitted for any lowercase letter.
+       Quiet squeaks are emitted for any lowercase letter.
 
      A
        Loud screams will be emitted for for any uppercase or titlecase letter.
 
      !
-       Foxes scream. Other punctuation than exclamation marks are unnecessary.
+       Foxes do scream. Other punctuation than exclamation marks are unneces‐
+       sary.
 
      🦊
-       Symbols (and emojis!) are replaced with foxes. Foxes are everywhere!
+       Symbols (and other emojis!) are replaced with foxes. Foxes are every‐
+       where!
 
      ?
-       The fox gets if they encounter an unknown symbol, such as a number.
+       The fox gets confused if they encounter an unknown symbol, such as a
+       number.
 
      Linebreaks a are left intact, other whitespaces are replaces with spaces.
 
 EXAMPLES
+     Process text from standard input:
+
+           $ echo "I am a cheetah. 🐆" | fox
+           A aa a aaaaaaa! 🦊
+
+     First read the file arctic, then standard input and finally the file cor‐
+     sac:
+
+           $ fox arctic - corsac
+
+EXIT STATUS
      0
        Everything is fine. Yerf!
 
@@ -73,11 +102,14 @@ EXAMPLES
        Cannot not open file. Aaaaa!
 
      2
-       Cannot read file. AAAAA!
+       Cannot read file after opening it successfully. AAAAA!
 
 BUGS
-     Use brushes to move them out of the fur.  You may also need tick tweezers.
+     Use brushes to move them out of the fur.  You may also need tick tweez‐
+     ers.
 
 SEE ALSO
      cat(1), tac(1)
+
+                               November 18, 2024
 ```
