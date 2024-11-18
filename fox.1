@@ -25,22 +25,35 @@ See the following enumeration on how each scream is generated.
 
 .Bl -tag -width
 .It a
-Quiet screams are emitted for any lowercase letter.
+Quiet squeaks are emitted for any lowercase letter.
 .It A
 Loud screams will be emitted for for any uppercase or titlecase letter.
 .It !
-Foxes scream. Other punctuation than exclamation marks are unnecessary.
+Foxes do scream. Other punctuation than exclamation marks are unnecessary.
 .It 🦊
-Symbols (and emojis!) are replaced with foxes. Foxes are everywhere!
+Symbols (and other emojis!) are replaced with foxes. Foxes are everywhere!
 .It ?
-The fox gets if they encounter an unknown symbol, such as a number.
+The fox gets confused if they encounter an unknown symbol, such as a number.
 .El
 
 Linebreaks a are left intact, other whitespaces are replaces with spaces.
 
 .Sh EXAMPLES
 
-.EXIT STATUS
+.Pp
+Process text from standard input:
+.Bd -literal -offset indent
+$ echo "I am a cheetah. 🐆" | fox
+A aa a aaaaaaa! 🦊
+.Ed
+
+.Pp
+First read the file arctic, then standard input and finally the file corsac:
+.Bd -literal -offset indent
+$ fox arctic - corsac
+.Ed
+
+.Sh EXIT STATUS
 
 .Bl -tag -width
 .It 0
@@ -48,7 +61,7 @@ Everything is fine. Yerf!
 .It 1
 Cannot not open file. Aaaaa!
 .It 2
-Cannot read file. AAAAA!
+Cannot read file after opening it successfully. AAAAA!
 .El
 
 .Sh BUGS
