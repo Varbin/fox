@@ -1,3 +1,4 @@
+// Command fox screams files on the standard output.
 package main
 
 import (
@@ -80,5 +81,4 @@ func main() {
 			os.Exit(2)
 		}
 	}
-
 }
